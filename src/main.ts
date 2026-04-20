@@ -5,10 +5,10 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { RGBELoader } from "three/addons/loaders/RGBELoader.js";
-import "./style.css";
-import wobbleVertexShader from "./shaders/wobble/vertex.glsl";
-import wobbleFragmentShader from "./shaders/wobble/fragment.glsl";
 import { mergeVertices } from "three/examples/jsm/utils/BufferGeometryUtils.js";
+import wobbleFragmentShader from "./shaders/wobble/fragment.glsl";
+import wobbleVertexShader from "./shaders/wobble/vertex.glsl";
+import "./style.css";
 
 /**
  * Base
@@ -64,6 +64,15 @@ const material = new CustomShaderMaterial({
   wireframe: false,
 });
 
+const depthMaterial = new CustomShaderMaterial({
+  // csm
+  baseMaterial: THREE.MeshDepthMaterial,
+  vertexShader: wobbleVertexShader,
+
+  // meshdepthmaterial
+  depthPacking: THREE.RGBADepthPacking,
+});
+
 // Tweaks
 gui.add(material, "metalness", 0, 1, 0.001);
 gui.add(material, "roughness", 0, 1, 0.001);
@@ -79,6 +88,7 @@ geometry.computeTangents();
 
 // Mesh
 const wobble = new THREE.Mesh(geometry, material);
+wobble.customDepthMaterial = depthMaterial;
 wobble.receiveShadow = true;
 wobble.castShadow = true;
 scene.add(wobble);
