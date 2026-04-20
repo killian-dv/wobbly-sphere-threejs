@@ -1,6 +1,7 @@
 import GUI from "lil-gui";
 import * as THREE from "three";
 import CustomShaderMaterial from "three-custom-shader-material/vanilla";
+import type { CSMProxy } from "three-custom-shader-material/vanilla";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
@@ -70,7 +71,7 @@ const material = new CustomShaderMaterial({
   thickness: 1.5,
   transparent: true,
   wireframe: false,
-});
+}) as CSMProxy<typeof THREE.MeshPhysicalMaterial>;
 
 const depthMaterial = new CustomShaderMaterial({
   // csm
@@ -97,8 +98,8 @@ gui.add(material, "thickness", 0, 10, 0.001);
 gui.addColor(material, "color");
 
 // Geometry
-let geometry = new THREE.IcosahedronGeometry(2.5, 50);
-geometry = mergeVertices(geometry);
+const icosahedronGeometry = new THREE.IcosahedronGeometry(2.5, 50);
+const geometry = mergeVertices(icosahedronGeometry);
 geometry.computeTangents();
 
 // Mesh
