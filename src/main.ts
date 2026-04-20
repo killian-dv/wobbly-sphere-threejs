@@ -1,7 +1,7 @@
 import GUI from "lil-gui";
 import * as THREE from "three";
-import CustomShaderMaterial from "three-custom-shader-material/vanilla";
 import type { CSMProxy } from "three-custom-shader-material/vanilla";
+import CustomShaderMaterial from "three-custom-shader-material/vanilla";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
@@ -52,6 +52,9 @@ const uniforms = {
   uPositionFrequency: new THREE.Uniform(0.5),
   uTimeFrequency: new THREE.Uniform(0.4),
   uStrength: new THREE.Uniform(0.3),
+  uWarpPositionFrequency: new THREE.Uniform(0.38),
+  uWarpTimeFrequency: new THREE.Uniform(0.12),
+  uWarpStrength: new THREE.Uniform(1.7),
 };
 
 // Material
@@ -89,6 +92,14 @@ gui
   .name("Position Frequency");
 gui.add(uniforms.uTimeFrequency, "value", 0, 2, 0.001).name("Time Frequency");
 gui.add(uniforms.uStrength, "value", 0, 2, 0.001).name("Strength");
+
+gui
+  .add(uniforms.uWarpPositionFrequency, "value", 0, 2, 0.001)
+  .name("Warp Position Frequency");
+gui
+  .add(uniforms.uWarpTimeFrequency, "value", 0, 2, 0.001)
+  .name("Warp Time Frequency");
+gui.add(uniforms.uWarpStrength, "value", 0, 2, 0.001).name("Warp Strength");
 
 gui.add(material, "metalness", 0, 1, 0.001);
 gui.add(material, "roughness", 0, 1, 0.001);
