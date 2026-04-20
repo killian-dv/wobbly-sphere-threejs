@@ -16,7 +16,10 @@ import "./style.css";
  */
 // Debug
 const gui = new GUI({ width: 325 });
-const debugObject = {};
+const debugObject = {
+  colorA: "#0000ff",
+  colorB: "#ff0000",
+};
 
 // Canvas
 const canvas = document.querySelector<HTMLCanvasElement>("canvas.webgl");
@@ -55,6 +58,8 @@ const uniforms = {
   uWarpPositionFrequency: new THREE.Uniform(0.38),
   uWarpTimeFrequency: new THREE.Uniform(0.12),
   uWarpStrength: new THREE.Uniform(1.7),
+  uColorA: new THREE.Uniform(new THREE.Color(debugObject.colorA)),
+  uColorB: new THREE.Uniform(new THREE.Color(debugObject.colorB)),
 };
 
 // Material
@@ -100,6 +105,19 @@ gui
   .add(uniforms.uWarpTimeFrequency, "value", 0, 2, 0.001)
   .name("Warp Time Frequency");
 gui.add(uniforms.uWarpStrength, "value", 0, 2, 0.001).name("Warp Strength");
+
+gui
+  .addColor(debugObject, "colorA")
+  .onChange(() => {
+    uniforms.uColorA.value.set(debugObject.colorA);
+  })
+  .name("Color A");
+gui
+  .addColor(debugObject, "colorB")
+  .onChange(() => {
+    uniforms.uColorB.value.set(debugObject.colorB);
+  })
+  .name("Color B");
 
 gui.add(material, "metalness", 0, 1, 0.001);
 gui.add(material, "roughness", 0, 1, 0.001);
