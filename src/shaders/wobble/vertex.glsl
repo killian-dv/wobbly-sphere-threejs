@@ -1,9 +1,14 @@
 attribute vec4 tangent;
 
+uniform float uTime;
+uniform float uPositionFrequency;
+uniform float uTimeFrequency;
+uniform float uStrength;
+
 #include ../includes/simplex-noise-4D.glsl
 
 float getWobble(vec3 position) {
-  return simplexNoise4d(vec4(position, 0.0));
+  return simplexNoise4d(vec4(position * uPositionFrequency, uTime * uTimeFrequency)) * uStrength;
 }
 
 void main() {
